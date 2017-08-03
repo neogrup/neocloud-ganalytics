@@ -8,7 +8,10 @@ Copyright (c) 2017 Neo
 
 <dom-module id="neocloud-ganalytics">
   <template>
-    test
+    <div>{{appconfig.analytics}}</div>
+    <div>{{appconfig.localhostApiURL}}</div>
+
+    <iron-localstorage name="app-config" value="{{appconfig}}" on-iron-localstorage-load="_setGoogleAnalytics"></iron-localstorage>
   </template>
 
   <script>
@@ -27,6 +30,15 @@ Copyright (c) 2017 Neo
       },
 
       ready: function(){
+      },
+
+      /**
+       *
+       * @private
+       * Set google analytics with the value saved in local-storage
+       */
+      _setGoogleAnalytics: function(){
+        console.log('test');
       }
 
     });
