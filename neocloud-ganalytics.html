@@ -8,9 +8,6 @@ Copyright (c) 2017 Neo
 
 <dom-module id="neocloud-ganalytics">
   <template>
-    <div>{{appconfig.analytics}}</div>
-    <div>{{appconfig.localhostApiURL}}</div>
-
     <iron-localstorage name="app-config" value="{{appconfig}}" on-iron-localstorage-load="_setGoogleAnalytics"></iron-localstorage>
   </template>
 
@@ -38,7 +35,22 @@ Copyright (c) 2017 Neo
        * Set google analytics with the value saved in local-storage
        */
       _setGoogleAnalytics: function(){
-        console.log('test');
+        if (this.appconfig.analytics !== "") {
+          (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+              (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+          })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+          ga('create', this.appconfig.analytics, 'auto');
+          ga('send', 'pageview');
+        }
       }
 
     });
