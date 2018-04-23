@@ -3,7 +3,7 @@
 Copyright (c) 2017 Neo
 -->
 
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-localstorage/iron-localstorage.html">
 
 <dom-module id="neocloud-ganalytics">
@@ -24,46 +24,45 @@ Copyright (c) 2017 Neo
       m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    Polymer({
-      is: 'neocloud-ganalytics',
 
-      properties: {
-        /**
-         * appconfig value
-         */
-        appconfig: {
-          type: Object,
-          notify: true,
-          reflectToAttribute: true
-        },
-        lastPage: {
-          type: String,
-          value: ""
-        },
-        gaCreated: {
-          type: Boolean,
-          value: false
+    class NeocloudGanalytics extends Polymer.Element {
+      static get is() { return 'neocloud-ganalytics' }
+      static get properties() {
+        return {
+          /**
+          * appconfig value
+          */
+          appconfig: {
+            type: Object,
+            notify: true,
+            reflectToAttribute: true
+          },
+          lastPage: {
+            type: String,
+            value: ""
+          },
+          gaCreated: {
+            type: Boolean,
+            value: false
+          }
         }
-      },
-
-      ready: function(){
-      },
+      }
 
       /**
        *
        * @private
        * Set google analytics with the value saved in local-storage
        */
-      _setGoogleAnalytics: function(){
+      _setGoogleAnalytics(){
         if (this.appconfig.analytics !== "") {
           ga('create', this.appconfig.analytics, 'auto');
           this.gaCreated = true;
           ga('set', 'page', location.pathname);
           ga('send', 'pageview');
         }
-      },
+      }
 
-      updateGoogleAnalytics: function(){
+      updateGoogleAnalytics(){
         if (!this.gaCreated) return;
         if (location.pathname != this.lastPage) {
           this.lastPage = location.pathname;
@@ -71,9 +70,7 @@ Copyright (c) 2017 Neo
           ga('send', 'pageview');
         }
       }
-
-    });
-
-
+    }
+    customElements.define(NeocloudGanalytics.is, NeocloudGanalytics);
   </script>
 </dom-module>
